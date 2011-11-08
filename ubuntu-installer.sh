@@ -188,7 +188,7 @@ echo " "
 ## Debootstrap
 
 echo "Debootstrapping... This process can take a couple of minutes."
-debootstrap --arch powerpc lucid /mnt/ubuntu http://ports.ubuntu.com
+debootstrap --arch powerpc oneiric /mnt/ubuntu http://ports.ubuntu.com
 echo " "
 
 echo "Copying 2nd half of installer and variables over to post-chrooted environment"
