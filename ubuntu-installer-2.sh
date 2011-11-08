@@ -37,6 +37,26 @@ echo $D > /etc/hostname
 touch /etc/hosts
 echo "127.0.0.1		localhost" > /etc/hosts
 
+## User creation and password setting
+echo "Starting user creation and password entries..."
+
+echo "Please set a new root password."
+passwd
+echo " "
+
+## Adding new base user
+read -p "Please enter in a username you would like to use: " F
+if [ "$F" = "" ]; then
+	echo "That username was not valid"
+else
+	echo "Creating user $F"
+	adduser $F
+fi 
+
+## Adding user to admin group
+echo "Adding $F to admin group"
+usermod -aG sudo $F
+
 ## Setting up /etc/network/interfaces
 
 echo " "
@@ -63,7 +83,7 @@ echo " "
 echo "Setting up locales and console-data.  For english set en-us-UTF8."
 echo " "
 
-apt-get -y install language-pack-en
+#apt-get -y install language-pack-en
 apt-get -y install locales
 dpkg-reconfigure locales
 apt-get -y install console-data
@@ -86,26 +106,6 @@ tasksel install standard
 echo "Cleaning up install packages to save space on HDD. . ."
 apt-get clean
 
-
-## User creation and password setting
-echo "Starting user creation and password entries..."
-
-echo "Please set a new root password."
-passwd
-echo " "
-
-## Adding new base user
-read -p "Please enter in a username you would like to use: " F
-if [ "$F" = "" ]; then
-	echo "That username was not valid"
-else
-	echo "Creating user $F"
-	adduser $F
-fi 
-
-## Adding user to admin group
-echo "Adding $F to admin group"
-usermod -aG sudo $F
 
 
 ## Installing dev packages for kernel build
@@ -137,7 +137,8 @@ cp /usr/src/linux/ps3_linux_config /usr/src/linux/.config
 echo " "
 echo "Starting compilation of kernel. (Takes around 30 mins or less.)"
 cd /usr/src/linux
-make menuconfig
+#make menuconfig
+make oldconfig
 make
 make install
 make modules_install
