@@ -112,7 +112,7 @@ usermod -aG sudo $F
 echo " "
 echo "Installing development packages for kernel build"
 echo " "
-apt-get -y install git build-essential ncurses-dev git-core gitosis
+apt-get -y install git build-essential ncurses-dev git-core
 
 
 ## Creating Swap Parition and Enabling
