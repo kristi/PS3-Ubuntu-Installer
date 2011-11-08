@@ -9,7 +9,7 @@ echo " "
 
 ## Creates the directory to chroot to.
 echo "Creating chroot directory /mnt/ubuntu"
-mkdir /mnt/ubuntu
+[ -e /mnt/ubuntu ] || mkdir /mnt/ubuntu
 echo " "
 
 ## Mounts / to /mnt/ubuntu/
@@ -17,7 +17,6 @@ echo " "
 echo "Mounting /dev/ps3dd2 to the chroot dir."
 mount /dev/ps3dd2 /mnt/ubuntu
 
-cp ./ubuntu-installer-2.sh /mnt/ubuntu/tmp/ubuntu-installer-2.sh
 cp ./build-kernel.sh /mnt/ubuntu/tmp/build-kernel.sh
 
 ## Mounting proc as part of chroot.
@@ -26,5 +25,5 @@ echo "chrooting. . ."
 sleep 1
 mount -t proc none /mnt/ubuntu/proc
 mount --rbind /dev /mnt/ubuntu/dev
-LANG=C chroot /mnt/ubuntu 
+LANG=C chroot /mnt/ubuntu /bin/bash
 

@@ -12,6 +12,14 @@ export TERM=xterm-color
 ###################### End of Chrooting Process ######################
 
 
+## Setting up timezone
+
+echo "Setting up timezone data"
+echo " "
+#dpkg-reconfigure tzdata
+echo "America/Los_Angeles" | tee /etc/timezone
+dpkg-reconfigure --frontend noninteractive tzdata
+
 
 ## Setting up fstab
 
@@ -20,42 +28,6 @@ echo "Setting up fstab entries. . ."
 echo " "
 echo -e "/dev/ps3dd2	/		extextvar	defaults		0 1\n/dev/ps3vram	none		swap	sw			0 0\n/dev/ps3dd1	none		swap	sw			0 0\n/dev/sr0	/mnt/cdrom	auto	noauto,ro		0 0\nproc		/proc		proc	defaults		0 0\nshm		/dev/shm	tmpfs	nodev,nosuid,noexec	0 0\ndev	/dev	tmpfs	rw	0 0" > /etc/fstab
 
-
-## Setting up timezone
-
-echo "Setting up timezone data"
-echo " "
-dpkg-reconfigure tzdata
-
-
-## Configuring Network Data
-
-read -p "Please enter the name of your Playstation 3 Ubuntu Box. (No spaces or odd characters): " D
-echo " "
-echo "Saving $D into /etc/hostname"
-echo $D > /etc/hostname
-touch /etc/hosts
-echo "127.0.0.1		localhost" > /etc/hosts
-
-## User creation and password setting
-echo "Starting user creation and password entries..."
-
-echo "Please set a new root password."
-passwd
-echo " "
-
-## Adding new base user
-read -p "Please enter in a username you would like to use: " F
-if [ "$F" = "" ]; then
-	echo "That username was not valid"
-else
-	echo "Creating user $F"
-	adduser $F
-fi 
-
-## Adding user to admin group
-echo "Adding $F to admin group"
-usermod -aG sudo $F
 
 ## Setting up /etc/network/interfaces
 
@@ -85,9 +57,9 @@ echo " "
 
 #apt-get -y install language-pack-en
 apt-get -y install locales
-dpkg-reconfigure locales
+#dpkg-reconfigure locales
 apt-get -y install console-data
-dpkg-reconfigure console-data
+#dpkg-reconfigure console-data
 echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/default/locale
 
 
@@ -96,6 +68,7 @@ echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/default/locale
 echo " "
 echo "Installing other packages that are needed."
 echo " "
+apt-get -y install vim
 sleep 2
 
 echo " "
@@ -138,10 +111,21 @@ echo " "
 echo "Starting compilation of kernel. (Takes around 30 mins or less.)"
 cd /usr/src/linux
 #make menuconfig
-make oldconfig
-make
-make install
-make modules_install
+make oldconfig && make && make install && make modules_install
+
+if [ "$?" != 0 ]; then
+    echo "ERROR compiling kernel"
+    read -p "Open interactive shell to manually compile kernel?: (y/n)" K
+    if [ "$K" != n ]; then
+        echo "Exit this shell when you are finished compiling"
+        echo "You may want to run"
+        echo "  make menuconfig"
+        echo "  make && make install && make modules_install"
+        echo "to compile the kernel"
+        bash
+    fi
+fi
+
 cd /
 echo " "
 echo "Kernel compiling is done if no errors occured."
@@ -167,6 +151,35 @@ echo " "
 echo -e "KERNEL==\"ps3vflash\", SYMLINK+=\"ps3flash\"" > /etc/udev/rules.d/70-persistent-ps3flash.rules
 
 
+## Configuring Network Data
+
+read -p "Please enter the name of your Playstation 3 Ubuntu Box. (No spaces or odd characters): " D
+echo " "
+echo "Saving $D into /etc/hostname"
+echo $D > /etc/hostname
+touch /etc/hosts
+echo "127.0.0.1		localhost" > /etc/hosts
+
+## User creation and password setting
+echo "Starting user creation and password entries..."
+
+echo "Please set a new root password."
+passwd
+echo " "
+
+## Adding new base user
+read -p "Please enter in a username you would like to use: " F
+if [ "$F" = "" ]; then
+	echo "That username was not valid"
+else
+	echo "Creating user $F"
+	adduser $F
+fi 
+
+## Adding user to admin group
+echo "Adding $F to admin group"
+usermod -aG sudo $F
+
 ## Finished
 
 echo " "
@@ -177,4 +190,5 @@ read -p "Press any key to reboot.  (If system hangs, hold power button for 8 sec
 echo " " 
 echo "Enjoy!"
 
-reboot
+#reboot
+exec bash

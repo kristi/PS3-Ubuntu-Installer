@@ -123,7 +123,8 @@ mkdir /mnt/ubuntu
 echo " "
 
 ## Choice of type of formatting to be used on ps3dd2
-read -p "Which filesystem type do you wish "root" to have?  ext(2/3/4) (s)kip: " A
+#read -p "Which filesystem type do you wish "root" to have?  ext(2/3/4) (s)kip: " A
+A=3
 if [ "$A" = 2 ]; then
         echo "Formatting ext2"
 	umount /dev/ps3dd2
@@ -192,8 +193,9 @@ debootstrap --arch powerpc maverick /mnt/ubuntu http://ports.ubuntu.com
 echo " "
 
 echo "Copying 2nd half of installer and variables over to post-chrooted environment"
-cp ./ubuntu-installer-2.sh /mnt/ubuntu/tmp/ubuntu-installer-2.sh
+cp ./*.sh /mnt/ubuntu/tmp
 sed -i "s/extvar/$A/g" /mnt/ubuntu/tmp/ubuntu-installer-2.sh
+sed -i "s/extvar/$A/g" /mnt/ubuntu/tmp/ubuntu-unattended-installer-2.sh
 cat /etc/resolv.conf > /mnt/ubuntu/etc/resolv.conf
 
 ## Mounting proc as part of chroot.
@@ -202,5 +204,5 @@ echo "chrooting. . ."
 sleep 1
 mount -t proc none /mnt/ubuntu/proc
 mount --rbind /dev /mnt/ubuntu/dev
-LANG=C chroot /mnt/ubuntu /tmp/ubuntu-installer-2.sh
+LANG=C chroot /mnt/ubuntu /tmp/ubuntu-unattended-installer-2.sh
 
