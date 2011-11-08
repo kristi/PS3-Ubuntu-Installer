@@ -43,10 +43,10 @@ read -p "Press any key to continue."
 
 ## Umounting /dev/ps3dd2 in case of previous attempts at installs
 echo "Attempting to umount /dev/ps3dd2 in case of previous attempts were made at installation..."
-rm -rf /tmp/petitboot/mnt/ps3dd1/*
-rm -rf /tmp/petitboot/mnt/ps3dd2/*
 umount /dev/ps3dd1
 umount /dev/ps3dd2
+rm -rf /tmp/petitboot/mnt/ps3dd1/*
+rm -rf /tmp/petitboot/mnt/ps3dd2/*
 
 
 
@@ -123,7 +123,8 @@ mkdir /mnt/ubuntu
 echo " "
 
 ## Choice of type of formatting to be used on ps3dd2
-read -p "Which filesystem type do you wish "root" to have?  ext(2/3/4) (s)kip: " A
+#read -p "Which filesystem type do you wish "root" to have?  ext(2/3/4) (s)kip: " A
+A=3
 if [ "$A" = 2 ]; then
         echo "Formatting ext2"
 	umount /dev/ps3dd2
