@@ -138,7 +138,7 @@ echo " "
 echo "Starting compilation of kernel. (Takes around 30 mins or less.)"
 cd /usr/src/linux
 #make menuconfig
-make oldconfig
+make silentoldconfig
 make
 make install
 make modules_install
