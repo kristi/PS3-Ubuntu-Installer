@@ -17,6 +17,8 @@ echo " "
 echo "Mounting /dev/ps3dd2 to the chroot dir."
 mount /dev/ps3dd2 /mnt/ubuntu
 
+cp ./ubuntu-installer-2.sh /mnt/ubuntu/tmp/ubuntu-installer-2.sh
+cp ./build-kernel.sh /mnt/ubuntu/tmp/build-kernel.sh
 
 ## Mounting proc as part of chroot.
 
