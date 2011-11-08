@@ -45,12 +45,12 @@ echo " "
 echo -e "auto lo\niface lo inet loopback\n\nauto eth0\niface eth0 inet dhcp\n" > /etc/network/interfaces
 
 
-## Configuring aptitude sources in /etc/apt/sources.list
+## Configuring apt-get sources in /etc/apt/sources.list
 
 echo " "
 echo "Creating entries for sources.list"
 echo " "
-echo -e "deb http://ports.ubuntu.com/ubuntu-ports/ lucid main restricted\ndeb-src http://ports.ubuntu.com/ubuntu-ports/ lucid-updates restricted\ndeb http://ports.ubuntu.com/ubuntu-ports/ lucid universe\ndeb http://ports.ubuntu.com/ubuntu-ports/ lucid-updates universe\ndeb http://ports.ubuntu.com/ubuntu-ports/ lucid multiverse\ndeb http://ports.ubuntu.com/ubuntu-ports/ lucid-updates multiverse\ndeb http://ports.ubuntu.com/ubuntu-ports/ lucid-security main restricted\ndeb-src http://ports.ubuntu.com/ubuntu-ports/ lucid-security main restricted\ndeb http://ports.ubuntu.com/ubuntu-ports/ lucid-security universe\ndeb-src http://ports.ubuntu.com/ubuntu-ports/ lucid-security universe\ndeb http://ports.ubuntu.com/ubuntu-ports/ lucid-security multiverse\ndeb-src http://ports.ubuntu.com/ubuntu-ports/ lucid-security multiverse\n" > /etc/apt/sources.list
+echo -e "deb http://ports.ubuntu.com/ubuntu-ports/ oneiric main restricted\ndeb-src http://ports.ubuntu.com/ubuntu-ports/ oneiric-updates restricted\ndeb http://ports.ubuntu.com/ubuntu-ports/ oneiric universe\ndeb http://ports.ubuntu.com/ubuntu-ports/ oneiric-updates universe\ndeb http://ports.ubuntu.com/ubuntu-ports/ oneiric multiverse\ndeb http://ports.ubuntu.com/ubuntu-ports/ oneiric-updates multiverse\ndeb http://ports.ubuntu.com/ubuntu-ports/ oneiric-security main restricted\ndeb-src http://ports.ubuntu.com/ubuntu-ports/ oneiric-security main restricted\ndeb http://ports.ubuntu.com/ubuntu-ports/ oneiric-security universe\ndeb-src http://ports.ubuntu.com/ubuntu-ports/ oneiric-security universe\ndeb http://ports.ubuntu.com/ubuntu-ports/ oneiric-security multiverse\ndeb-src http://ports.ubuntu.com/ubuntu-ports/ oneiric-security multiverse\n" > /etc/apt/sources.list
 
 
 ## Updating packages for Debian install
@@ -58,14 +58,15 @@ echo -e "deb http://ports.ubuntu.com/ubuntu-ports/ lucid main restricted\ndeb-sr
 echo " "
 echo "Updating base install package index."
 echo " "
-aptitude update
+apt-get update
 echo " "
 echo "Setting up locales and console-data.  For english set en-us-UTF8."
 echo " "
 
-aptitude -y install locales
+apt-get -y install language-pack-en
+apt-get -y install locales
 dpkg-reconfigure locales
-aptitude -y install console-data
+apt-get -y install console-data
 dpkg-reconfigure console-data
 echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/default/locale
 
@@ -83,7 +84,7 @@ sleep 3
 
 tasksel install standard
 echo "Cleaning up install packages to save space on HDD. . ."
-aptitude clean
+apt-get clean
 
 
 ## User creation and password setting
@@ -111,7 +112,7 @@ usermod -aG sudo $F
 echo " "
 echo "Installing development packages for kernel build"
 echo " "
-aptitude -y install git build-essential ncurses-dev git-core gitosis
+apt-get -y install git build-essential ncurses-dev git-core gitosis
 
 
 ## Creating Swap Parition and Enabling
