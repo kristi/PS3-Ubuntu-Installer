@@ -206,3 +206,5 @@ mount -t proc none /mnt/ubuntu/proc
 mount --rbind /dev /mnt/ubuntu/dev
 LANG=C chroot /mnt/ubuntu /tmp/ubuntu-unattended-installer-2.sh
 
+reboot
+
