@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 ############# Section 2 of Ubuntu Installer ###########
 ## Had to add this section due to chrooting process. ##
@@ -85,7 +85,7 @@ apt-get clean
 echo " "
 echo "Installing development packages for kernel build"
 echo " "
-apt-get -y install git build-essential ncurses-dev git-core
+apt-get -y install build-essential ncurses-dev git-core
 
 
 ## Creating Swap Parition and Enabling
@@ -190,5 +190,5 @@ read -p "Press any key to reboot.  (If system hangs, hold power button for 8 sec
 echo " " 
 echo "Enjoy!"
 
-#reboot
 exec bash
+
