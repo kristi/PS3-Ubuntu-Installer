@@ -55,12 +55,13 @@ echo " "
 echo "Setting up locales and console-data.  For english set en-us-UTF8."
 echo " "
 
-#apt-get -y install language-pack-en
+apt-get -y install language-pack-en
+locale-gen en_US.UTF-8
 apt-get -y install locales
 #dpkg-reconfigure locales
 apt-get -y install console-data
 #dpkg-reconfigure console-data
-echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/default/locale
+#echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/default/locale
 
 
 ## Finishing touches
